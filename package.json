@@ -9,9 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@react-three/drei": "^10.0.6",
+    "@react-three/fiber": "^9.1.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "formik": "^2.4.6",
+    "gsap": "^3.12.7",
+    "lucide-react": "^0.487.0",
+    "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.2.4"
+    "react-hot-toast": "^2.5.2",
+    "tailwind-merge": "^3.1.0",
+    "three": "^0.175.0",
+    "tw-animate-css": "^1.2.5",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
