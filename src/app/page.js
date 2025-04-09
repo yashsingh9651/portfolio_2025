@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import { Geist_Mono, Space_Mono } from "next/font/google";
+import AboutSection from "@/components/About";
+
 const spaceMono = Space_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -22,35 +24,18 @@ function Character({ triggerAnimation }) {
   const mixerRef = useRef(null);
   const defaultActionRef = useRef(null);
   const specialActionRef = useRef(null);
-  console.log(
-    "Memory usage before model load:",
-    performance.memory
-      ? Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) + "MB"
-      : "Not available"
-  );
   const { scene, animations } = useGLTF("/man3.glb");
-  console.log(
-    "Memory usage after model load:",
-    performance.memory
-      ? Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) + "MB"
-      : "Not available"
-  );
-  console.log("Animations:", animations);
-
   // Initialize the mixer and actions once
   useEffect(() => {
     mixerRef.current = new THREE.AnimationMixer(scene);
-
     // Default animation (looping)
     defaultActionRef.current = mixerRef.current.clipAction(animations[0]); // Using index 1 for default animation
     defaultActionRef.current.loop = THREE.LoopRepeat;
     defaultActionRef.current.play();
-
     // Special animation (plays once when button is clicked)
     specialActionRef.current = mixerRef.current.clipAction(animations[3]); // Using index 0 for special animation
     specialActionRef.current.loop = THREE.LoopOnce;
     specialActionRef.current.clampWhenFinished = false;
-
     // Clean up
     return () => {
       if (mixerRef.current) {
@@ -69,12 +54,10 @@ function Character({ triggerAnimation }) {
     ) {
       // Fade out default animation
       defaultActionRef.current.fadeOut(0.5);
-
       // Reset and play the special animation
       specialActionRef.current.reset();
       specialActionRef.current.fadeIn(0.5);
       specialActionRef.current.play();
-
       // When special animation finishes, return to default animation
       mixerRef.current.addEventListener("finished", function onFinished(e) {
         if (e.action === specialActionRef.current) {
@@ -90,13 +73,11 @@ function Character({ triggerAnimation }) {
       });
     }
   }, [triggerAnimation]);
-
   useFrame((state, delta) => {
     if (mixerRef.current) {
       mixerRef.current.update(delta);
     }
   });
-
   return (
     <group ref={group} position={[0, -0.5, 0]}>
       <primitive object={scene} scale={1.5} position={[0, -1, 0]} />
@@ -117,6 +98,7 @@ export default function Home() {
   const handleAnimationClick = () => {
     setAnimationCount((prev) => prev + 1); // Increment to trigger animation
   };
+  // Navbar state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
@@ -133,7 +115,6 @@ export default function Home() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
   const navItems = [
     {
       name: "Home",
@@ -152,9 +133,24 @@ export default function Home() {
       href: "#contact",
     },
   ];
+  // Download CV function
+  const handleDownload = async () => {
+    try {
+      const link = document.createElement("a");
+      link.href = "/cv.pdf";
+      link.setAttribute("download", "Yash_Singh_CV.pdf");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading CV:", error);
+    }
+  };
 
   return (
-    <div className={`relative min-h-screen w-full overflow-x-hidden`}>
+    <div
+      className={`relative min-h-screen !scroll-smooth w-full overflow-x-hidden`}
+    >
       {/* Neon gradient overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(67,22,219,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(0,236,181,0.1),transparent_50%)] pointer-events-none"></div>
       {/* Glow effects */}
@@ -284,10 +280,10 @@ export default function Home() {
           </p>
           {/* Buttons with improved styling */}
           <div className="flex flex-wrap gap-4">
-            <a
-              href="/Yash_Singh_CV.pdf"
+            <button
+              onClick={handleDownload}
               download
-              className="group px-6 py-3 bg-transparent text-cyan-400 border border-cyan-500/50 rounded-lg hover:bg-cyan-950/30 transition-all flex items-center gap-2"
+              className="group cursor-pointer download px-6 py-3 bg-transparent text-cyan-400 border border-cyan-500/50 rounded-lg hover:bg-cyan-950/30 transition-all flex items-center gap-2"
             >
               <span>Download CV</span>
               <svg
@@ -302,7 +298,7 @@ export default function Home() {
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
             <a
               href="#project"
               className="px-6 py-3 bg-white/5 backdrop-blur-sm text-white hover:text-cyan-400 rounded-lg hover:bg-white/10 transition-all"
@@ -341,7 +337,7 @@ export default function Home() {
       </div>
 
       {/* About Section */}
-      <div
+      {/* <div
         id="about"
         className="h-screen w-3/4 flex flex-col justify-center items-start p-12 z-10"
       >
@@ -374,8 +370,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
-
+      </div> */}
+      <AboutSection/>
       {/* Project section placeholder */}
       <div id="project" className="min-h-screen w-3/4 p-12 z-10">
         {/* Add your project content here */}
