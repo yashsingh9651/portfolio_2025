@@ -6,16 +6,35 @@ import * as THREE from "three";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu } from "lucide-react";
-
+import { Geist_Mono, Space_Mono } from "next/font/google";
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
+});
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 // Character model component
 function Character({ triggerAnimation }) {
   const group = useRef();
   const mixerRef = useRef(null);
   const defaultActionRef = useRef(null);
   const specialActionRef = useRef(null);
-
-  // Replace with your actual GLTF model path
-  const { scene, animations } = useGLTF("/man2.glb");
+  console.log(
+    "Memory usage before model load:",
+    performance.memory
+      ? Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) + "MB"
+      : "Not available"
+  );
+  const { scene, animations } = useGLTF("/man3.glb");
+  console.log(
+    "Memory usage after model load:",
+    performance.memory
+      ? Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) + "MB"
+      : "Not available"
+  );
   console.log("Animations:", animations);
 
   // Initialize the mixer and actions once
@@ -93,7 +112,6 @@ function Loader() {
     </div>
   );
 }
-
 export default function Home() {
   const [animationCount, setAnimationCount] = useState(0);
   const handleAnimationClick = () => {
@@ -101,7 +119,6 @@ export default function Home() {
   };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
       // Set isScrolled to true if scrolled more than 50 pixels
@@ -137,7 +154,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative min-h-screen w-full scroll-smooth bg-gradient-to-br from-gray-900 via-purple-900 to-violet-950 overflow-x-hidden">
+    <div className={`relative min-h-screen w-full overflow-x-hidden`}>
       {/* Neon gradient overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(67,22,219,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(0,236,181,0.1),transparent_50%)] pointer-events-none"></div>
       {/* Glow effects */}
@@ -237,29 +254,89 @@ export default function Home() {
 
       {/* Main content sections */}
       {/* Hero Section */}
-      <div className="h-screen w-3/4 flex flex-col justify-center items-start p-12 z-10">
-        <div className="max-w-2xl">
-          <h1 className="text-6xl font-bold text-white mb-4">
+      <div className="h-screen w-3/4 flex flex-col justify-center items-start p-12 z-10 relative">
+        {/* Background elements */}
+        <div className="absolute top-1/3 -left-10 w-32 h-32 border border-cyan-500/40 rounded-full animate-pulse"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-24 h-24 border-2 border-purple-500/20 rounded-full animate-ping opacity-80"></div>
+        <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
+        {/* Animated typing indicator */}
+        <div className="mb-1 flex items-center">
+          <span className="h-3 w-3 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+          <span className="text-sm text-cyan-400 font-mono">
+            Online & Available for Work
+          </span>
+        </div>
+        {/* Main content */}
+        <div className="relative">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-2">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
               Hi, I'm Yash Singh
             </span>
           </h1>
-          <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-            Creative developer passionate about building immersive 3D web
-            experiences. Bringing ideas to life with React, Three.js, and
-            innovative design.
+          {/* Secondary title - faded and larger */}
+          <h2 className="text-5xl md:text-6xl font-extrabold text-white/10 mb-6">
+            Full Stack Web Developer
+          </h2>
+          <p className="text-lg text-gray-300 mb-8 leading-relaxed max-w-xl border-l-2 border-cyan-500/50 pl-4">
+            I craft responsive websites and applications with modern
+            technologies, specializing in interactive 3D experiences that merge
+            creativity with technical excellence.
           </p>
-          <div className="flex gap-4">
-            <button
-              onClick={handleAnimationClick}
-              className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:shadow-lg hover:shadow-cyan-500/20 transition-all"
+          {/* Buttons with improved styling */}
+          <div className="flex flex-wrap gap-4">
+            <a
+              href="/Yash_Singh_CV.pdf"
+              download
+              className="group px-6 py-3 bg-transparent text-cyan-400 border border-cyan-500/50 rounded-lg hover:bg-cyan-950/30 transition-all flex items-center gap-2"
             >
-              Play Animation
-            </button>
-            <button className="px-6 py-3 bg-transparent text-cyan-400 border border-cyan-500/50 rounded-lg hover:bg-cyan-950/30 transition-all">
+              <span>Download CV</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 group-hover:translate-y-1 transition-transform"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </a>
+            <a
+              href="#project"
+              className="px-6 py-3 bg-white/5 backdrop-blur-sm text-white hover:text-cyan-400 rounded-lg hover:bg-white/10 transition-all"
+            >
               View Projects
-            </button>
+            </a>
           </div>
+        </div>
+        {/* Banner */}
+        <div className="w-screen font-playfair font-semibold opacity-80 select-none absolute bottom-0 left-0 flex text-5xl justify-around p-10">
+          <span
+            className="text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
+            style={{ textShadow: "0 1px 1px rgba(0,255,255,0.1)" }}
+          >
+            FULLSTACK
+          </span>
+          <span
+            className="text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
+            style={{ textShadow: "0 1px 1px rgba(168,85,247,0.1)" }}
+          >
+            MERN
+          </span>
+          <span
+            className="text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
+            style={{ textShadow: "0 1px 1px rgba(0,255,255,0.1)" }}
+          >
+            FRONTEND
+          </span>
+          <span
+            className="text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
+            style={{ textShadow: "0 1px 1px rgba(168,85,247,0.1)" }}
+          >
+            BACKEND
+          </span>
         </div>
       </div>
 
