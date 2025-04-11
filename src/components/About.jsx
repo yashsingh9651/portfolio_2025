@@ -7,20 +7,6 @@ gsap.registerPlugin(useGSAP);
 const AboutSection = () => {
   gsap.registerPlugin(ScrollTrigger);
   const container = useRef();
-  const skillBarsRef = useRef([]);
-
-  // Skill data with proficiency levels
-  const skills = [
-    { name: "Next.js", level: 90, color: "cyan" },
-    { name: "Three.js", level: 85, color: "cyan" },
-    { name: "TailwindCSS", level: 92, color: "cyan" },
-    { name: "GSAP", level: 80, color: "cyan" },
-    { name: "Node.js", level: 88, color: "cyan" },
-    { name: "Express.js", level: 85, color: "cyan" },
-    { name: "MongoDB", level: 82, color: "cyan" },
-    { name: "Firebase", level: 78, color: "cyan" },
-    { name: "Next Auth", level: 75, color: "cyan" },
-  ];
 
   useGSAP(
     () => {
@@ -47,26 +33,15 @@ const AboutSection = () => {
             scrub: true,
           },
         })
-        .from(".skillHead", {
+        .from(".skill", {
           y: 50,
           opacity: 0,
           duration: 0.8,
-          stagger: 0.2,
           scrollTrigger: {
-            trigger: ".skillHead",
+            trigger: ".skill",
             start: "20% 80%",
+            end: "top 30%",
             scrub: true,
-          },
-        })
-        .from(".bar", {
-          width: "0%",
-          duration: 1.5,
-          ease: "power3.out",
-          stagger: 0.5,
-          scrollTrigger: {
-            trigger: ".bar",
-            start: "top 90%",
-            end: "top top",
             markers: true,
           },
         });
@@ -157,50 +132,107 @@ const AboutSection = () => {
 
         {/* Right column - Only Technical Proficiency */}
         <div className="space-y-4">
-          <h3 className="text-2xl skillHead font-medium text-white/90">
+          <h3 className="text-2xl skill font-medium text-white/90">
             Technical Proficiency
           </h3>
           <div className="space-y-3">
             <div className="space-y-2">
-              <h4 className="text-lg font-semibold text-cyan-400 mb-1">
+              <h4 className="text-lg skill font-semibold text-cyan-400 mb-1">
                 Frontend Development
               </h4>
-              {skills.slice(0, 4).map((skill, index) => (
-                <div key={index} className="mb-4">
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-300">{skill.name}</span>
-                    <span className="text-gray-400 text-sm">
-                      {skill.level}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-white/10 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full bg-gradient-to-r w-[${skill.level}%] bar from-${skill.color}-400 to-${skill.color}-500/80`}
-                    ></div>
-                  </div>
+              <div className="mb-4 skill">
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-300">Next.js</span>
+                  <span className="text-gray-400 text-sm">95%</span>
                 </div>
-              ))}
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full bg-gradient-to-r w-[95%] from-cyan-400 to-cyan-500/80`}
+                  ></div>
+                </div>
+              </div>
+              <div className="mb-4 skill">
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-300">TailwindCSS</span>
+                  <span className="text-gray-400 text-sm">92%</span>
+                </div>
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full bg-gradient-to-r w-[92%] from-cyan-400 to-cyan-500/80`}
+                  ></div>
+                </div>
+              </div>
+              <div className="mb-4 skill">
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-300">GSAP</span>
+                  <span className="text-gray-400 text-sm">80%</span>
+                </div>
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full bg-gradient-to-r w-[80%] from-cyan-400 to-cyan-500/80`}
+                  ></div>
+                </div>
+              </div>
+              <div className="mb-4 skill">
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-300">Three.js</span>
+                  <span className="text-gray-400 text-sm">75%</span>
+                </div>
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full bg-gradient-to-r w-[75%] from-cyan-400 to-cyan-500/80`}
+                  ></div>
+                </div>
+              </div>
             </div>
-
             <div className="space-y-2">
-              <h4 className="text-lg font-semibold text-purple-400 mb-1">
+              <h4 className="text-lg skill font-semibold text-purple-400 mb-1">
                 Backend Development
               </h4>
-              {skills.slice(4).map((skill, index) => (
-                <div key={index} className="mb-4">
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-300">{skill.name}</span>
-                    <span className="text-gray-400 text-sm">
-                      {skill.level}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-white/10 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full bg-gradient-to-r w-[${skill.level}%] bar from-${skill.color}-400 to-${skill.color}-500/80`}
-                    ></div>
-                  </div>
+              <div className="mb-4 skill">
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-300">Node.js</span>
+                  <span className="text-gray-400 text-sm">88%</span>
                 </div>
-              ))}
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full bg-gradient-to-r w-[88%] from-cyan-400 to-cyan-500/80`}
+                  ></div>
+                </div>
+              </div>
+              <div className="mb-4 skill">
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-300">Express.js</span>
+                  <span className="text-gray-400 text-sm">85%</span>
+                </div>
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full bg-gradient-to-r w-[85%] from-cyan-400 to-cyan-500/80`}
+                  ></div>
+                </div>
+              </div>
+              <div className="mb-4 skill">
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-300">MongoDB</span>
+                  <span className="text-gray-400 text-sm">82%</span>
+                </div>
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full bg-gradient-to-r w-[82%] from-cyan-400 to-cyan-500/80`}
+                  ></div>
+                </div>
+              </div>
+              <div className="mb-4 skill">
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-300">Next Auth</span>
+                  <span className="text-gray-400 text-sm">75%</span>
+                </div>
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full bg-gradient-to-r w-[75%] from-cyan-400 to-cyan-500/80`}
+                  ></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
