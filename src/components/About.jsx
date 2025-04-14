@@ -37,12 +37,12 @@ const AboutSection = () => {
           y: 50,
           opacity: 0,
           duration: 0.8,
+          stagger:.5,
           scrollTrigger: {
             trigger: ".skill",
             start: "20% 80%",
             end: "top 30%",
             scrub: true,
-            markers: true,
           },
         });
     },
