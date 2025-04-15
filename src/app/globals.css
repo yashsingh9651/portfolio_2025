@@ -1,6 +1,24 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* Add these to your globals.css file */
 
+@keyframes gradient-x {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes gradient-y {
+  0%, 100% {
+    transform: translateY(-100%);
+  }
+  50% {
+    transform: translateY(100%);
+  }
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

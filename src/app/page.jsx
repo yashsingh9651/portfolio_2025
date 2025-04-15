@@ -10,6 +10,8 @@ import { Geist_Mono, Space_Mono } from "next/font/google";
 import AboutSection from "@/components/About";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import Projects from "@/components/Projects";
+import Contact from "@/components/Contact";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -223,7 +225,7 @@ export default function Home() {
   const bannerRef = useRef(null);
   const navRef = useRef(null);
   const bgEffectsRef = useRef(null);
-  
+
   // Smooth scrolling function
   const scrollToSection = (sectionId) => {
     // Special case for home page (top of the page)
@@ -237,7 +239,7 @@ export default function Home() {
       });
       return;
     }
-    
+
     const section = document.getElementById(sectionId);
     if (section) {
       gsap.to(window, {
@@ -264,7 +266,7 @@ export default function Home() {
       return () => clearInterval(interval);
     }
   }, [loading, loadingProgress]);
-  
+
   const finishLoading = () => {
     setLoading(false);
     setInitialAnimationPlayed(true);
@@ -364,39 +366,39 @@ export default function Home() {
       "-=0.6"
     );
   };
-  
+
   // Setup smooth scrolling for all anchor links
   useEffect(() => {
     // Handle anchor links
     const handleAnchorClick = (e) => {
-      const target = e.target.closest('a');
+      const target = e.target.closest("a");
       if (!target) return;
-      
-      const href = target.getAttribute('href');
-      if (!href || !href.startsWith('#')) return;
-      
+
+      const href = target.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+
       // Prevent default behavior
       e.preventDefault();
-      
+
       // Extract section ID and scroll
       const sectionId = href.substring(1);
       scrollToSection(sectionId);
-      setAnimationCount(prev => prev + 1); // Trigger character animation on navigation
+      setAnimationCount((prev) => prev + 1); // Trigger character animation on navigation
     };
-    
+
     // Add event listener to document
-    document.addEventListener('click', handleAnchorClick);
-    
+    document.addEventListener("click", handleAnchorClick);
+
     // Cleanup
     return () => {
-      document.removeEventListener('click', handleAnchorClick);
+      document.removeEventListener("click", handleAnchorClick);
     };
   }, []);
-  
+
   const handleAnimationClick = () => {
     setAnimationCount((prev) => prev + 1); // Increment to trigger animation
   };
-  
+
   // Navbar state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -409,7 +411,7 @@ export default function Home() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  
+
   const navItems = [
     {
       name: "Home",
@@ -428,7 +430,7 @@ export default function Home() {
       href: "#contact",
     },
   ];
-  
+
   // Download CV function
   const handleDownload = async () => {
     try {
@@ -442,7 +444,7 @@ export default function Home() {
       console.error("Error downloading CV:", error);
     }
   };
-  
+
   return (
     <>
       {loading && (
@@ -706,19 +708,9 @@ export default function Home() {
             </span>
           </div>
         </div>
-
-        {/* About Section */}
         <AboutSection />
-
-        {/* Project section placeholder */}
-        <div id="project" className="min-h-screen w-3/4 p-12 z-10">
-          {/* Add your project content here */}
-        </div>
-
-        {/* Contact section placeholder */}
-        <div id="contact" className="min-h-screen w-3/4 p-12 z-10">
-          {/* Add your contact content here */}
-        </div>
+        <Projects />
+        <Contact />
       </div>
     </>
   );
