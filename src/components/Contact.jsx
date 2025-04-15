@@ -12,38 +12,30 @@ import {
   Github,
   Twitter,
 } from "lucide-react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import emailjs from "@emailjs/browser";
+
+// Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
+
+// Validation schema for form
+const Schema = Yup.object({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  message: Yup.string().required("Message is required"),
+});
+
 export default function Contact() {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const contentRef = useRef(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [formState, setFormState] = useState({
-    isSubmitting: false,
-    isSuccess: false,
-    isError: false,
-    errorMessage: "",
-  });
-  // Form fields animation sequence
-  const formFieldVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    }),
-  };
+  const form = useRef();
+
   // Setup animations
   useEffect(() => {
     const timeline = gsap.timeline({
@@ -73,91 +65,68 @@ export default function Contact() {
       timeline.kill();
     };
   }, []);
-  // Handle form changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+  // Form fields animation sequence
+  const formFieldVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    }),
   };
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Form validation
-    if (!formData.name || !formData.email || !formData.message) {
-      setFormState({
-        isSubmitting: false,
-        isSuccess: false,
-        isError: true,
-        errorMessage: "Please fill out all required fields.",
-      });
-      return;
-    }
 
-    // Set submitting state
-    setFormState({
-      isSubmitting: true,
-      isSuccess: false,
-      isError: false,
-      errorMessage: "",
-    });
-
-    // Simulate form submission (replace with actual API call)
-    try {
-      // Fake API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Success state
-      setFormState({
-        isSubmitting: false,
-        isSuccess: true,
-        isError: false,
-        errorMessage: "",
-      });
-
-      // Reset form after success
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      });
-
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setFormState((prev) => ({ ...prev, isSuccess: false }));
-      }, 5000);
-    } catch (error) {
-      // Error state
-      setFormState({
-        isSubmitting: false,
-        isSuccess: false,
-        isError: true,
-        errorMessage: "Something went wrong. Please try again later.",
-      });
-    }
-  };
-  // Hover effect for social icons
-  const iconVariants = {
-    hover: {
-      y: -5,
-      color: "#22d3ee", // cyan-400
-      transition: { type: "spring", stiffness: 400, damping: 10 },
+  // Formik setup
+  const {
+    values,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    errors,
+    touched,
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
     },
-  };
+    validationSchema: Schema,
+    onSubmit: async (values, action) => {
+      try {
+        // Send email using EmailJS
+        await emailjs.sendForm(
+          process.env.NEXT_PUBLIC_EMAIL_KEY,
+          "template_hr64q6m",
+          form.current,
+          "pLJS6d0WCzJXu3_og"
+        );
+        action.resetForm();
+      } catch (error) {
+      }
+    },
+  });
 
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="min-h-screen w-3/4 p-8 md:p-12 !pt-20 relative"
+      className="min-h-screen w-full md:w-3/4 !pt-20 pb-10 px-4 md:px-12 relative"
     >
       {/* Decorative elements */}
       <div className="absolute top-20 left-10 w-64 h-64 border border-purple-500/30 rounded-full animate-pulse"></div>
       <div className="absolute bottom-20 right-10 w-32 h-32 border border-cyan-300/40 rounded-full animate-pulse"></div>
-      <div className="absolute -top-20 right-1/4 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl"></div>
+      <div className="absolute -top-20 right-1/4 w-80 h-80 bg-cyan-500/30 rounded-full blur-3xl"></div>
+
       {/* Section header */}
-      <div className="mb-10 relative z-10">
+      <div className="mb-6 relative z-10">
         <div ref={titleRef} className="opacity-0">
-          <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+          <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
             Get In Touch
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full my-4"></div>
@@ -167,6 +136,7 @@ export default function Contact() {
           </p>
         </div>
       </div>
+
       {/* Single box with form and contact info */}
       <div className="relative z-10">
         <div
@@ -178,7 +148,7 @@ export default function Contact() {
             <h3 className="text-2xl font-bold text-white mb-4">
               Send Me a Message
             </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-4">
               {/* Name and Subject */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <motion.div
@@ -195,12 +165,20 @@ export default function Contact() {
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
+                    value={values.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="John Doe"
-                    className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
+                    className={`w-full px-3 py-2 bg-white/5 border ${
+                      errors.name && touched.name
+                        ? "border-red-400"
+                        : "border-white/10"
+                    } rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all`}
                     required
                   />
+                  {errors.name && touched.name && (
+                    <p className="text-red-400 text-xs mt-1">{errors.name}</p>
+                  )}
                 </motion.div>
                 <motion.div
                   custom={1}
@@ -216,8 +194,9 @@ export default function Contact() {
                     type="text"
                     id="subject"
                     name="subject"
-                    value={formData.subject}
+                    value={values.subject}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="Project inquiry"
                     className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
                   />
@@ -238,13 +217,21 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  value={formData.message}
+                  value={values.message}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Hello Yash, I'd like to discuss..."
                   rows={5}
-                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all resize-none"
+                  className={`w-full px-3 py-2 bg-white/5 border ${
+                    errors.message && touched.message
+                      ? "border-red-400"
+                      : "border-white/10"
+                  } rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all resize-none`}
                   required
                 />
+                {errors.message && touched.message && (
+                  <p className="text-red-400 text-xs mt-1">{errors.message}</p>
+                )}
               </motion.div>
 
               {/* Email and Submit Button in one row */}
@@ -263,12 +250,20 @@ export default function Contact() {
                     type="email"
                     id="email"
                     name="email"
-                    value={formData.email}
+                    value={values.email}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="john@example.com"
-                    className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
+                    className={`w-full px-3 py-2 bg-white/5 border ${
+                      errors.email && touched.email
+                        ? "border-red-400"
+                        : "border-white/10"
+                    } rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all`}
                     required
                   />
+                  {errors.email && touched.email && (
+                    <p className="text-red-400 text-xs mt-1">{errors.email}</p>
+                  )}
                 </motion.div>
 
                 <motion.div
@@ -277,25 +272,23 @@ export default function Contact() {
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={formFieldVariants}
-                  className="flex items-end"
+                  className="flex items-end" // Aligns the button to the bottom to match the email input height
                 >
                   <motion.button
                     type="submit"
-                    disabled={formState.isSubmitting}
-                    className="w-full bg-gradient-to-r cursor-pointer from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium py-2 px-6 rounded-lg transition-all flex items-center justify-center space-x-2 group disabled:opacity-70 disabled:cursor-not-allowed"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium py-2 px-6 rounded-lg transition-all flex items-center justify-center space-x-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <span>
-                      {formState.isSubmitting ? "Sending..." : "Send Message"}
-                    </span>
-                    {!formState.isSubmitting && (
+                    <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
+                    {!isSubmitting && (
                       <Send
                         size={16}
                         className="group-hover:translate-x-1 transition-transform"
                       />
                     )}
-                    {formState.isSubmitting && (
+                    {isSubmitting && (
                       <svg
                         className="animate-spin h-5 w-5 text-white"
                         xmlns="http://www.w3.org/2000/svg"
@@ -320,33 +313,6 @@ export default function Contact() {
                   </motion.button>
                 </motion.div>
               </div>
-
-              {/* Error message */}
-              {formState.isError && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg"
-                >
-                  <p className="text-red-400 text-sm">
-                    {formState.errorMessage}
-                  </p>
-                </motion.div>
-              )}
-
-              {/* Success message */}
-              {formState.isSuccess && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg"
-                >
-                  <p className="text-green-400 text-sm">
-                    Your message has been sent successfully! I'll get back to
-                    you soon.
-                  </p>
-                </motion.div>
-              )}
             </form>
           </div>
         </div>

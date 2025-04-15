@@ -133,7 +133,7 @@ export default function ProjectSection() {
   // Progress bar component
   const ProgressBar = ({ active, total }) => {
     return (
-      <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden my-8">
+      <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden my-4 md:my-8">
         <motion.div
           className="h-full bg-gradient-to-r from-cyan-400 to-purple-400"
           initial={{ width: `${(active / total) * 100}%` }}
@@ -148,7 +148,7 @@ export default function ProjectSection() {
     <section
       id="project"
       ref={sectionRef}
-      className="min-h-screen w-3/4 p-8 md:p-12 !pt-20 relative"
+      className="min-h-screen w-full md:w-3/4 !pt-20 px-4 md:px-12 relative"
     >
       {/* Decorative elements */}
       <div className="absolute top-20 right-20 w-64 h-64 border border-cyan-300/30 rounded-full animate-pulse"></div>
@@ -158,7 +158,7 @@ export default function ProjectSection() {
       {/* Section header */}
       <div className="mb-8 relative z-10">
         <div ref={titleRef} className="opacity-0">
-          <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+          <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
             Projects
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full my-4"></div>
@@ -170,9 +170,9 @@ export default function ProjectSection() {
       </div>
 
       {/* Interactive Carousel */}
-      <div className="w-5/6 relative z-30">
+      <div className="md:w-5/6 relative z-30">
         {/* Progress indicator */}
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center md:mb-2">
           <div className="flex items-center space-x-2">
             <span className="h-3 w-3 rounded-full bg-cyan-400 animate-pulse"></span>
             <span className="text-sm text-cyan-400 font-mono">
@@ -197,13 +197,11 @@ export default function ProjectSection() {
             </button>
           </div>
         </div>
-
         <ProgressBar active={activeIndex} total={projects.length} />
-
         {/* Main carousel */}
         <div
           ref={carouselRef}
-          className="relative h-[400px] rounded-xl backdrop-blur-sm bg-black/30 border border-white/10 overflow-hidden"
+          className="relative min-h-[620px] md:h-[400px] rounded-xl backdrop-blur-sm bg-black/30 border border-white/10 overflow-hidden"
         >
           <AnimatePresence initial={false} mode="wait" custom={direction}>
             <motion.div
@@ -213,7 +211,7 @@ export default function ProjectSection() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="absolute inset-0 p-8"
+              className="absolute inset-0 p-4 md:p-8"
             >
               <div className="h-full flex flex-col md:flex-row gap-8">
                 {/* Project image */}
@@ -237,7 +235,7 @@ export default function ProjectSection() {
                 </div>
                 {/* Project details */}
                 <div className="w-full md:w-1/2 flex flex-col">
-                  <h3 className="text-3xl font-bold text-white mb-4">
+                  <h3 className="text-xl md:text-3xl font-bold text-white mb-4">
                     {projects[activeIndex].title}
                   </h3>
 

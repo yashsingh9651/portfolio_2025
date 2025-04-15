@@ -53,7 +53,7 @@ const AboutSection = () => {
     <div
       id="about"
       ref={container}
-      className="min-h-screen w-3/4 pt-20 px-12 relative"
+      className="min-h-screen w-full md:w-3/4 pt-20 px-4 md:px-12 relative"
     >
       {/* Background elements */}
       <div className="absolute -top-20 -right-20 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl"></div>

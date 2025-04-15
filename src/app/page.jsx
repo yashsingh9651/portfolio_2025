@@ -216,6 +216,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [initialAnimationPlayed, setInitialAnimationPlayed] = useState(false);
+  const [isMediumScreen, setIsMediumScreen] = useState(true); // Default to true, will be updated on client
   const heroRef = useRef(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
@@ -225,6 +226,22 @@ export default function Home() {
   const bannerRef = useRef(null);
   const navRef = useRef(null);
   const bgEffectsRef = useRef(null);
+
+  // Check screen size on client-side
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMediumScreen(window.innerWidth >= 768); // 768px is standard md breakpoint in Tailwind
+    };
+    
+    // Initial check
+    checkScreenSize();
+    
+    // Add event listener
+    window.addEventListener('resize', checkScreenSize);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   // Smooth scrolling function
   const scrollToSection = (sectionId) => {
@@ -461,13 +478,11 @@ export default function Home() {
       >
         {/* Neon gradient overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(67,22,219,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(0,236,181,0.1),transparent_50%)] pointer-events-none"></div>
-
         {/* Glow effects */}
         <div ref={bgEffectsRef} className="opacity-0">
           <div className="absolute top-1/4 -left-20 w-72 h-72 bg-cyan-500 rounded-full opacity-20 blur-3xl"></div>
           <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-purple-600 rounded-full opacity-20 blur-3xl"></div>
         </div>
-
         {/* Navbar */}
         <nav
           ref={navRef}
@@ -511,15 +526,13 @@ export default function Home() {
           </div>
           {/* Mobile Hamburger Menu */}
           <div className="md:hidden flex w-full items-center justify-between p-2">
-            <Image
-              src={"/logo.svg"}
-              width={20}
-              height={80}
-              alt="logo"
-              className={`${
+          <h1
+              className={`text-nowrap text-white font-bold ${
                 isScrolled ? "block" : "hidden"
               } duration-200 ease-in-out`}
-            />
+            >
+              <span className="text-cyan-400">Yash</span> Singh
+            </h1>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-white focus:outline-none ml-auto"
@@ -553,50 +566,51 @@ export default function Home() {
           </div>
         )}
 
-        {/* 3D Canvas */}
-        <div className="fixed top-0 right-0 h-screen w-1/4 z-0 bg-transparent">
-          <Canvas camera={{ position: [1, 0, 5], fov: 45 }} shadows>
-            <Suspense fallback={null}>
-              <ambientLight intensity={0.5} />
-              <spotLight
-                position={[10, 10, 10]}
-                angle={0.15}
-                penumbra={1}
-                intensity={1}
-                castShadow
-                shadow-mapSize-width={1024}
-                shadow-mapSize-height={1024}
-                shadow-bias={-0.0001}
-              />
-              <pointLight position={[-10, -10, -10]} />
-              <Character
-                triggerAnimation={animationCount}
-                initialAnimation={initialAnimationPlayed}
-                castShadow
-              />
+        {/* 3D Canvas - Only show on medium screens and above */}
+        {isMediumScreen && (
+          <div className="fixed top-0 right-0 h-screen w-1/4 z-0 bg-transparent hidden md:block">
+            <Canvas camera={{ position: [1, 0, 5], fov: 45 }} shadows>
+              <Suspense fallback={null}>
+                <ambientLight intensity={0.5} />
+                <spotLight
+                  position={[10, 10, 10]}
+                  angle={0.15}
+                  penumbra={1}
+                  intensity={1}
+                  castShadow
+                  shadow-mapSize-width={1024}
+                  shadow-mapSize-height={1024}
+                  shadow-bias={-0.0001}
+                />
+                <pointLight position={[-10, -10, -10]} />
+                <Character
+                  triggerAnimation={animationCount}
+                  initialAnimation={initialAnimationPlayed}
+                  castShadow
+                />
 
-              {/* Shadow-receiving circular plane beneath the character */}
-              <mesh
-                rotation={[-Math.PI / 2, 0, 0]}
-                position={[0, -1.5, 0]}
-                receiveShadow
-              >
-                <circleGeometry args={[2, 32]} />
-                <shadowMaterial transparent opacity={0.4} color="#000000" />
-              </mesh>
+                {/* Shadow-receiving circular plane beneath the character */}
+                <mesh
+                  rotation={[-Math.PI / 2, 0, 0]}
+                  position={[0, -1.5, 0]}
+                  receiveShadow
+                >
+                  <circleGeometry args={[2, 32]} />
+                  <shadowMaterial transparent opacity={0.4} color="#000000" />
+                </mesh>
 
-              <Environment preset="city" />
-              <OrbitControls enableZoom={true} />
-            </Suspense>
-          </Canvas>
-        </div>
+                <Environment preset="city" />
+                <OrbitControls enableZoom={true} />
+              </Suspense>
+            </Canvas>
+          </div>
+        )}
 
-        {/* Main content sections */}
-        {/* Hero Section */}
+        {/* Main content sections - Adjust width for small screens */}
         <div
           id="home"
           ref={heroRef}
-          className="h-screen w-3/4 flex flex-col justify-center items-start p-12 z-10 relative"
+          className="h-screen w-full md:w-3/4 flex flex-col justify-center items-start p-6 md:p-12 z-10 relative"
         >
           {/* Background elements */}
           <div className="absolute top-1/3 -left-10 w-32 h-32 border border-cyan-500/40 rounded-full animate-pulse"></div>
@@ -618,7 +632,7 @@ export default function Home() {
           <div className="relative">
             <h1
               ref={titleRef}
-              className="text-5xl md:text-6xl font-bold text-white mb-2 opacity-0"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 opacity-0"
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
                 Hi, I'm Yash Singh
@@ -628,14 +642,14 @@ export default function Home() {
             {/* Secondary title - faded and larger */}
             <h2
               ref={subtitleRef}
-              className="text-5xl md:text-6xl font-extrabold text-white/10 mb-6 opacity-0"
+              className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white/10 mb-6 opacity-0"
             >
               Full Stack Web Developer
             </h2>
 
             <p
               ref={descriptionRef}
-              className="text-lg text-gray-300 mb-8 leading-relaxed max-w-xl border-l-2 border-cyan-500/50 pl-4 opacity-0"
+              className="text-base md:text-lg text-gray-300 mb-8 leading-relaxed max-w-xl border-l-2 border-cyan-500/50 pl-4 opacity-0"
             >
               I craft responsive websites and applications with modern
               technologies, specializing in interactive 3D experiences that
@@ -647,7 +661,7 @@ export default function Home() {
               <button
                 onClick={handleDownload}
                 download
-                className="group cursor-pointer download px-6 py-3 bg-transparent text-cyan-400 border border-cyan-500/50 rounded-lg hover:bg-cyan-950/30 transition-all flex items-center gap-2"
+                className="group cursor-pointer download px-4 sm:px-6 py-2 sm:py-3 bg-transparent text-cyan-400 border border-cyan-500/50 rounded-lg hover:bg-cyan-950/30 transition-all flex items-center gap-2"
               >
                 <span>Download CV</span>
                 <svg
@@ -670,17 +684,17 @@ export default function Home() {
                   scrollToSection("project");
                   handleAnimationClick();
                 }}
-                className="px-6 py-3 bg-white/5 backdrop-blur-sm text-white hover:text-cyan-400 rounded-lg hover:bg-white/10 transition-all"
+                className="px-4 sm:px-6 py-2 sm:py-3 bg-white/5 backdrop-blur-sm text-white hover:text-cyan-400 rounded-lg hover:bg-white/10 transition-all"
               >
                 View Projects
               </a>
             </div>
           </div>
 
-          {/* Banner */}
+          {/* Banner - Hide on very small screens */}
           <div
             ref={bannerRef}
-            className="w-screen font-playfair font-semibold opacity-0 select-none absolute bottom-0 left-0 flex text-5xl justify-around p-10"
+            className="w-screen font-playfair font-semibold opacity-0 select-none absolute bottom-0 left-0 hidden sm:flex text-3xl md:text-4xl lg:text-5xl justify-around p-4 md:p-10"
           >
             <span
               className="text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
@@ -708,6 +722,7 @@ export default function Home() {
             </span>
           </div>
         </div>
+        {/* About Projects and Contact sections */}
         <AboutSection />
         <Projects />
         <Contact />
