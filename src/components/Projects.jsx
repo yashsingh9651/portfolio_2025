@@ -148,7 +148,7 @@ export default function ProjectSection() {
     <section
       id="project"
       ref={sectionRef}
-      className="min-h-screen w-full md:w-3/4 !pt-20 px-4 md:px-12 relative"
+      className="min-h-screen w-full lg:w-3/4 !pt-20 px-4 md:px-12 relative"
     >
       {/* Decorative elements */}
       <div className="absolute top-20 right-20 w-64 h-64 border border-cyan-300/30 rounded-full animate-pulse"></div>
@@ -170,7 +170,7 @@ export default function ProjectSection() {
       </div>
 
       {/* Interactive Carousel */}
-      <div className="md:w-5/6 relative z-30">
+      <div className="lg:w-5/6 relative z-30">
         {/* Progress indicator */}
         <div className="flex justify-between items-center md:mb-2">
           <div className="flex items-center space-x-2">
@@ -201,7 +201,7 @@ export default function ProjectSection() {
         {/* Main carousel */}
         <div
           ref={carouselRef}
-          className="relative min-h-[620px] md:h-[400px] rounded-xl backdrop-blur-sm bg-black/30 border border-white/10 overflow-hidden"
+          className="relative h-[620px] md:h-[450px] lg:h-[420px] rounded-xl backdrop-blur-sm bg-black/30 border border-white/10 overflow-hidden"
         >
           <AnimatePresence initial={false} mode="wait" custom={direction}>
             <motion.div
@@ -211,11 +211,11 @@ export default function ProjectSection() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="absolute inset-0 p-4 md:p-8"
+              className="absolute inset-0 p-4 md:p-6"
             >
-              <div className="h-full flex flex-col md:flex-row gap-8">
+              <div className="h-full flex flex-col md:flex-row gap-4 md:gap-8">
                 {/* Project image */}
-                <div className="w-full md:w-1/2 relative h-56 md:h-full rounded-lg overflow-hidden bg-gradient-to-r from-cyan-900/30 to-purple-900/30">
+                <div className="w-full md:w-1/2 relative aspect-square rounded-lg overflow-hidden bg-gradient-to-r from-cyan-900/30 to-purple-900/30">
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Replace with actual images when available */}
                     <div className="relative w-full aspect-square">

@@ -12,6 +12,7 @@ import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
+import SocialTabs from "@/components/SocialTabs";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -470,7 +471,6 @@ export default function Home() {
           finishLoading={finishLoading}
         />
       )}
-
       <div
         className={`relative min-h-screen !scroll-smooth w-full overflow-x-hidden ${
           loading ? "opacity-0" : "opacity-100 transition-opacity duration-500"
@@ -541,7 +541,6 @@ export default function Home() {
             </button>
           </div>
         </nav>
-
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden font-montserrat fixed top-20 left-0 right-0 bg-black/50 p-4 z-40 backdrop-blur-md border border-cyan-500/20">
@@ -565,10 +564,9 @@ export default function Home() {
             </div>
           </div>
         )}
-
-        {/* 3D Canvas - Only show on medium screens and above */}
+        {/* 3D Canvas */}
         {isMediumScreen && (
-          <div className="fixed top-0 right-0 h-screen w-1/4 z-0 bg-transparent hidden md:block">
+          <div className="fixed top-0 right-0 h-screen w-1/4 z-0 bg-transparent hidden lg:block">
             <Canvas camera={{ position: [1, 0, 5], fov: 45 }} shadows>
               <Suspense fallback={null}>
                 <ambientLight intensity={0.5} />
@@ -605,18 +603,16 @@ export default function Home() {
             </Canvas>
           </div>
         )}
-
-        {/* Main content sections - Adjust width for small screens */}
+        {/* Main content sections */}
         <div
           id="home"
           ref={heroRef}
-          className="h-screen w-full md:w-3/4 flex flex-col justify-center items-start p-6 md:p-12 z-10 relative"
+          className="h-screen w-full lg:w-3/4 flex flex-col justify-center items-start p-6 md:p-12 z-10 relative"
         >
           {/* Background elements */}
           <div className="absolute top-1/3 -left-10 w-32 h-32 border border-cyan-500/40 rounded-full animate-pulse"></div>
           <div className="absolute bottom-1/4 left-1/3 w-24 h-24 border-2 border-purple-500/20 rounded-full animate-ping opacity-80"></div>
           <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
-
           {/* Animated typing indicator */}
           <div
             ref={statusIndicatorRef}
@@ -627,7 +623,6 @@ export default function Home() {
               Online & Available for Work
             </span>
           </div>
-
           {/* Main content */}
           <div className="relative">
             <h1
@@ -638,7 +633,6 @@ export default function Home() {
                 Hi, I'm Yash Singh
               </span>
             </h1>
-
             {/* Secondary title - faded and larger */}
             <h2
               ref={subtitleRef}
@@ -646,7 +640,6 @@ export default function Home() {
             >
               Full Stack Web Developer
             </h2>
-
             <p
               ref={descriptionRef}
               className="text-base md:text-lg text-gray-300 mb-8 leading-relaxed max-w-xl border-l-2 border-cyan-500/50 pl-4 opacity-0"
@@ -655,7 +648,6 @@ export default function Home() {
               technologies, specializing in interactive 3D experiences that
               merge creativity with technical excellence.
             </p>
-
             {/* Buttons with improved styling */}
             <div ref={buttonsRef} className="flex flex-wrap gap-4 opacity-0">
               <button
@@ -690,7 +682,6 @@ export default function Home() {
               </a>
             </div>
           </div>
-
           {/* Banner - Hide on very small screens */}
           <div
             ref={bannerRef}
@@ -703,7 +694,7 @@ export default function Home() {
               FULLSTACK
             </span>
             <span
-              className="text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
+              className="text-transparent hidden lg:block bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
               style={{ textShadow: "0 1px 1px rgba(168,85,247,0.1)" }}
             >
               MERN
@@ -726,6 +717,7 @@ export default function Home() {
         <AboutSection />
         <Projects />
         <Contact />
+        <SocialTabs/>
       </div>
     </>
   );

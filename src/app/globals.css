@@ -1,6 +1,28 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-/* Add these to your globals.css file */
+/* Vertical social tabs (desktop) */
+.social-icon-link {
+  @apply p-2.5 rounded-full bg-black/30 backdrop-blur-sm border border-cyan-500/20
+  text-white hover:text-cyan-400 transition-all duration-300
+  hover:border-cyan-400 hover:shadow-[0_0_10px_rgba(6,182,212,0.5)] flex items-center justify-center;
+}
+
+/* Horizontal footer social tabs (mobile) */
+.social-icon-link-footer {
+  @apply p-2.5 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/20
+  text-white hover:text-cyan-400 transition-all duration-300
+  hover:border-cyan-400 hover:shadow-[0_0_10px_rgba(6,182,212,0.5)] flex items-center justify-center;
+}
+
+.social-icon {
+  @apply w-5 h-5;
+}
+
+/* For hover animations */
+.social-icon-link:hover .social-icon,
+.social-icon-link-footer:hover .social-icon {
+  @apply scale-110 transition-transform duration-300;
+}
 
 @keyframes gradient-x {
   0%, 100% {

@@ -1,5 +1,6 @@
 import {  Montserrat } from "next/font/google";
 import "./globals.css";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "900"],
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
         className={`${montserrat.className} scroll-smooth bg-gradient-to-br from-gray-900 via-purple-900 to-violet-950 antialiased`}
       >
         {children}
+        <GoogleAnalytics />
       </body>
     </html>
   );

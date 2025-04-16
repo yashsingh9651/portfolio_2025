@@ -116,7 +116,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={sectionRef}
-      className="min-h-screen w-full md:w-3/4 !pt-20 pb-10 px-4 md:px-12 relative"
+      className="min-h-screen w-full lg:w-3/4 !pt-20 pb-10 px-4 md:px-12 relative"
     >
       {/* Decorative elements */}
       <div className="absolute top-20 left-10 w-64 h-64 border border-purple-500/30 rounded-full animate-pulse"></div>
