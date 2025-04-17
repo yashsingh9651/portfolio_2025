@@ -14,36 +14,36 @@ if (typeof window !== "undefined") {
 // Project data
 const projects = [
   {
-    id: 5,
+    id: 1,
     title: "Dexterix Official Website",
     description:
       "Official website for Dexterix Hackathon, built to handle registrations, showcase event details, and deliver a smooth user experience. Led the UI/UX design and frontend development.",
-    technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Sanity.io"],
+    technologies: ["React.js", "Tailwind CSS", "Gsap"],
     deployedUrl: "https://dexterix.technojam.in",
     githubUrl: "https://github.com/technojam/4.0",
-    imageUrl: "/projects/dexterix.jpg",
+    imageUrl: "/dexterix.mp4",
     color: "#0891b2", // cyan-600
   },
   {
-    id: 6,
+    id: 2,
     title: "Inventory Management System",
     description:
       "A full-stack inventory management system to track stock levels, orders, and suppliers with real-time dashboard and role-based access control.",
-    technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
-    deployedUrl: "https://inventory.yourdomain.com",
-    githubUrl: "https://github.com/yashxdev/inventory-management",
-    imageUrl: "/projects/inventory.jpg",
+    technologies: ["Next.js", "Node.js", "MongoDB", "Tailwind CSS","Sanity.io","nodemailer"],
+    deployedUrl: "https://inventory.yashks.codes",
+    githubUrl: "https://github.com/yashsingh9651/points_system",
+    imageUrl: "/inventory.mp4",
     color: "#7e22ce", // purple-700
   },
   {
-    id: 7,
+    id: 3,
     title: "SecureIPData",
     description:
       "A client project for an IP services provider offering secure handling of proofreading, PTA, COC, and expiration management. Designed and developed a responsive frontend for seamless client interaction.",
     technologies: ["Next.js", "Tailwind CSS", "Redux Toolkit", "Sanity.io"],
     deployedUrl: "https://secureipdata.com",
     githubUrl: "https://github.com/yashsingh9651",
-    imageUrl: "/projects/secureipdata.jpg",
+    imageUrl: "/secureipdata.mp4",
     color: "#0891b2", // cyan-600
   },
 ];
@@ -170,7 +170,7 @@ export default function ProjectSection() {
       </div>
 
       {/* Interactive Carousel */}
-      <div className="lg:w-5/6 relative z-30">
+      <div className="relative z-30">
         {/* Progress indicator */}
         <div className="flex justify-between items-center md:mb-2">
           <div className="flex items-center space-x-2">
@@ -211,26 +211,20 @@ export default function ProjectSection() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="absolute inset-0 p-4 md:p-6"
+              className="absolute inset-0 p-4 md:p-5"
             >
-              <div className="h-full flex flex-col md:flex-row gap-4 md:gap-8">
+              <div className="h-full flex flex-col md:flex-row gap-4 md:gap-6">
                 {/* Project image */}
-                <div className="w-full md:w-1/2 relative aspect-square rounded-lg overflow-hidden bg-gradient-to-r from-cyan-900/30 to-purple-900/30">
+                <div className="w-full md:w-1/2 relative aspect-[3/4] rounded-lg overflow-hidden bg-gradient-to-r from-cyan-900/30 to-purple-900/30">
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Replace with actual images when available */}
-                    <div className="relative w-full aspect-square">
-                      <div className="absolute inset-0 flex items-center justify-center text-white/40 z-0">
-                        <span className="text-7xl font-bold">
-                          {projects[activeIndex].title.charAt(0)}
-                        </span>
-                      </div>
-
+                    <video src={projects[activeIndex].imageUrl} autoPlay={true} loop={true} className="relative object-cover h-full w-full">
                       {/* Animated border */}
                       <div className="absolute inset-0 z-10">
                         <div className="absolute top-0 right-0 w-[2px] h-full bg-gradient-to-b from-transparent via-purple-400 to-transparent animate-pulse"></div>
                         <div className="absolute top-0 left-0 w-[2px] h-full bg-gradient-to-b from-transparent via-purple-400 to-transparent animate-pulse"></div>
                       </div>
-                    </div>
+                    </video>
                   </div>
                 </div>
                 {/* Project details */}

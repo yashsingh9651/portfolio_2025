@@ -167,9 +167,11 @@ function LoadingScreen({ progress, finishLoading }) {
       className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center"
     >
       <div className="w-full max-w-md px-8 flex flex-col items-center">
-        <div className="w-32 h-32 mb-12">
+        <div className="w-32 h-32 mb-12 relative">
           {/* Animated logo or spinner */}
-          <div className="w-32 h-32 border-4 border-cyan-500/50 border-t-cyan-400 rounded-full animate-spin"></div>
+          <div className="w-32 h-32 border-4 border-cyan-500/50 border-t-cyan-400 rounded-full overflow-hidden animate-spin">
+          </div>
+          <Image layout="fill" alt="image" src="/logo.png"/>
         </div>
 
         <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mb-8">
