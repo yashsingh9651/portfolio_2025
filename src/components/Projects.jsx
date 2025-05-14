@@ -15,6 +15,17 @@ if (typeof window !== "undefined") {
 const projects = [
   {
     id: 1,
+    title: "SSRA It Solutions",
+    description:
+      "A comprehensive client project for an IT solutions provider specializing in web development, DevOps, cloud services, app development, and cybersecurity. Developed a professional interface that showcases their technical expertise while enabling seamless service discovery for potential clients.",
+    technologies: ["NEXT.js", "Tailwind CSS", "Framer-motion"],
+    deployedUrl: "https://solutions.yashks.codes",
+    githubUrl: "https://github.com/yashsingh9651/ssraitsolution",
+    imageUrl: "/ssra.mp4",
+    color: "#7e22ce", // purple-700
+  },
+  {
+    id: 1,
     title: "Dexterix Official Website",
     description:
       "Official website for Dexterix Hackathon, built to handle registrations, showcase event details, and deliver a smooth user experience. Led the UI/UX design and frontend development.",
